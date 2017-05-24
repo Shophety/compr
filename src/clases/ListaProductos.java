@@ -17,4 +17,8 @@ public class ListaProductos {
     public ListaProductos(){
         lista = new ArrayList();
     }
+    
+    public boolean insertar(Producto prod){
+        return false;
+    }
 }
