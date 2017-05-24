@@ -6,6 +6,8 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -19,6 +21,23 @@ public class ListaProductos {
     }
     
     public boolean insertar(Producto prod){
-        return false;
+        for (int i=0;i<lista.size();i++){
+            if(prod.equals(lista.get(i)))
+                return false;
+        }
+        
+        lista.add(prod);
+        return true;
+    }
+    
+    public void ordenar(){
+        Collections.sort(lista, new Comparator<Producto>() {
+
+            @Override
+            public int compare(Producto o1, Producto o2) {
+                return o1.getNombre().compareTo(o2.getNombre());
+            }
+
+        });
     }
 }
