@@ -6,9 +6,11 @@
 package pruebas;
 
 import clases.Impresora;
+import clases.ListaProductos;
 import clases.Texto;
 import clases.Usuario;
 import java.io.IOException;
+import clases.Producto;
 
 /**
  *
@@ -20,10 +22,9 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        // TODO code application logic here
-        Impresora imp = new Impresora();
-        imp.imprimir("abc abc asdfg sad \n asdf");
-        System.exit(0);
+        
+        
+        
     }
     
 }
