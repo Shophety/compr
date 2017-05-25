@@ -5,17 +5,31 @@
  */
 package ventanas;
 
+import clases.Impresora;
+import clases.ListaProductos;
+import clases.Producto;
+import clases.Usuario;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author M. Durán
  */
 public class gestor extends javax.swing.JFrame {
-
+    static String user;
     /**
      * Creates new form gestor
      */
-    public gestor(String user) {
+    public gestor(String user) throws IOException {
         initComponents();
+        this.user=user;
+        listarProductos(this.user);
     }
 
     /**
@@ -29,17 +43,17 @@ public class gestor extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        lista = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         listaCompra = new javax.swing.JTextArea();
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        imprimir = new javax.swing.JButton();
         limpiar = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        eliminar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         cerrar = new javax.swing.JButton();
 
@@ -49,14 +63,9 @@ public class gestor extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 153));
 
-        jList1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(jList1);
+        lista.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lista.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(lista);
 
         jButton1.setText(">>>");
 
@@ -113,7 +122,12 @@ public class gestor extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 153));
 
-        jButton2.setText("Imprimir");
+        imprimir.setText("Imprimir");
+        imprimir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imprimirMouseClicked(evt);
+            }
+        });
 
         limpiar.setText("Limpiar");
         limpiar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -124,7 +138,12 @@ public class gestor extends javax.swing.JFrame {
 
         jButton4.setText("Agregar Producto");
 
-        jButton5.setText("Eliminar Producto");
+        eliminar.setText("Eliminar Producto");
+        eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                eliminarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -134,11 +153,11 @@ public class gestor extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -146,10 +165,10 @@ public class gestor extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -206,6 +225,21 @@ public class gestor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void listarProductos(String user) throws IOException{
+        ListaProductos l = Usuario.listaProductos(user);
+        l.ordenar();
+        Producto[] aProd = l.toArray();
+        DefaultListModel<String> m = new DefaultListModel();
+        
+        for (int i=0;i<aProd.length;i++){
+            String p ="";
+            p=aProd[i].getNombre()+" - "+aProd[i].getPrecio()+"€";
+            m.addElement(p);
+        }
+        
+        lista.setModel(m);
+    }
+    
     private void cerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarMouseClicked
         new login().setVisible(true);
         dispose();
@@ -214,6 +248,41 @@ public class gestor extends javax.swing.JFrame {
     private void limpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_limpiarMouseClicked
         listaCompra.setText("   ------LISTA DE LA COMPRA-------\n\n\n\n   -------------------------------\n                    TOTAL: 000,00€");
     }//GEN-LAST:event_limpiarMouseClicked
+
+    private void eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarMouseClicked
+        if (lista.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(this, "ERROR: Ningun producto seleccionado");
+        } else {
+            try {
+                String item = lista.getModel().getElementAt(lista.getSelectedIndex());
+                String nombreProd=item.substring(0, item.indexOf('-')-1);
+                
+                Usuario.borrarProducto(user, nombreProd);
+                listarProductos(user);
+            } catch (IOException ex) {
+                Logger.getLogger(gestor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_eliminarMouseClicked
+
+    private void imprimirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imprimirMouseClicked
+        int numLineas=1;
+        String cad = listaCompra.getText();
+        for(int i=0;i<cad.length();i++){
+            if(cad.charAt(i)=='\n'){
+                numLineas++;
+            }
+        }
+        String[] lineas = new String[numLineas];
+            
+            
+            
+            
+            /*Impresora imp = new Impresora(listaCompra.getText());
+            PrinterJob job = PrinterJob.getPrinterJob();
+            job.setPrintable(imp);
+            job.print();*/
+    }//GEN-LAST:event_imprimirMouseClicked
 
     /**
      * @param args the command line arguments
@@ -245,19 +314,22 @@ public class gestor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new gestor("default").setVisible(true);
+                try {
+                    new gestor("default").setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(gestor.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cerrar;
+    private javax.swing.JButton eliminar;
+    private javax.swing.JButton imprimir;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -265,6 +337,7 @@ public class gestor extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton limpiar;
+    private javax.swing.JList<String> lista;
     private javax.swing.JTextArea listaCompra;
     // End of variables declaration//GEN-END:variables
 }

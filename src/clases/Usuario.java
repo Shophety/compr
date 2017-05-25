@@ -134,12 +134,45 @@ public class Usuario {
         return listaUsers;
     }
     
-    public static ListaProductos listaProductos(String nombre) throws FileNotFoundException{
+    public static ListaProductos listaProductos(String nombre) throws FileNotFoundException, IOException{
         FileReader archivo = new FileReader(new File("users/" + nombre + "/productos.lml"));
         BufferedReader br = new BufferedReader(archivo);
+        
         ListaProductos lista = new ListaProductos();
+        String linea;
+        int barra=1;
         
+        while((linea=br.readLine())!=null){
+            
+            for(int i=0;i<linea.length();i++){
+                if(linea.charAt(i)=='/'){
+                    barra = i;
+                }
+            }
+            
+            String nombreProd = linea.substring(0, barra);
+            float precio = Float.parseFloat(linea.substring(barra+1, linea.length()));
+            
+            lista.insertar(new Producto(nombreProd, precio));
+        }
         
+        br.close();
         return lista;
+    }
+    
+    public static void borrarProducto(String nombre, String nombreProd) throws IOException{
+        ListaProductos l = listaProductos(nombre);
+        l.eliminar(nombreProd);
+        Producto[] aProd = l.toArray();
+        FileWriter fichero = new FileWriter("users/" + nombre + "/productos.lml");
+        PrintWriter pw = new PrintWriter(fichero);
+        String linea="";
+        
+        for (int i=0;i<aProd.length;i++){
+            linea=aProd[i].getNombre()+"/"+aProd[i].getPrecio();
+            pw.println(linea);
+        }
+        
+        fichero.close();
     }
 }

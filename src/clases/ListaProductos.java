@@ -40,4 +40,32 @@ public class ListaProductos {
 
         });
     }
+    
+    public boolean eliminar(String nombre){
+        
+        for(int i=0; i<lista.size(); i++){
+            if(lista.get(i).getNombre().equals(nombre)){
+                lista.remove(i);
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    public int tamanno(){
+        return lista.size();
+    }
+    
+    public Producto[] toArray(){
+        Producto[] aProd = new Producto[tamanno()];
+        
+        for(int i=0;i<aProd.length;i++){
+            aProd[i]=lista.get(i);
+        }
+        
+        return aProd;
+    }
+    
+    
 }

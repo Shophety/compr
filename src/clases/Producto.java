@@ -23,6 +23,10 @@ public class Producto{
         return this.nombre;
     }
     
+    public float getPrecio(){
+        return this.precio;
+    }
+    
     @Override
     public boolean equals(Object obj){
         if(obj instanceof Producto){
