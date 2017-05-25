@@ -10,17 +10,19 @@ package clases;
  * @author M. Durán
  */
 public class Texto {
-    
-    public static boolean validar(String cad){
-        if(cad.length()==0)
+
+    public static boolean validar(String cad) {
+        if (cad.length() == 0) {
             return false;
-        
-        for (int i=0; i<cad.length();i++){
-            if(!(Character.isLetter(cad.charAt(i))|| Character.isDigit(cad.charAt(i))))
-                return false;
         }
-        
+
+        for (int i = 0; i < cad.length(); i++) {
+            if (!(Character.isLetter(cad.charAt(i)) || Character.isDigit(cad.charAt(i)))) {
+                return false;
+            }
+        }
+
         return true;
     }
-    
+
 }

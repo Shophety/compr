@@ -66,8 +66,8 @@
                   <Component id="jScrollPane1" min="-2" pref="314" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButton1" max="32767" attributes="0"/>
-                      <Component id="jTextField1" max="32767" attributes="0"/>
+                      <Component id="escribir" max="32767" attributes="0"/>
+                      <Component id="cantidad" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="3" max="32767" attributes="0"/>
@@ -93,9 +93,9 @@
                   <EmptySpace min="-2" pref="160" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTextField1" min="-2" pref="34" max="-2" attributes="0"/>
+                  <Component id="cantidad" min="-2" pref="34" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" pref="81" max="-2" attributes="0"/>
+                  <Component id="escribir" min="-2" pref="81" max="-2" attributes="0"/>
                   <EmptySpace pref="173" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -125,10 +125,13 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="escribir">
           <Properties>
             <Property name="text" type="java.lang.String" value="&gt;&gt;&gt;"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="escribirMouseClicked"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
           <AuxValues>
@@ -145,12 +148,11 @@
                   <Font name="Lucida Console" size="13" style="0"/>
                 </Property>
                 <Property name="rows" type="int" value="5"/>
-                <Property name="text" type="java.lang.String" value="   ------LISTA DE LA COMPRA-------&#xa;&#xa;   x5   aaaaaaaaaaaaaaa    020,90&#x20ac;&#xa;   x6   bbbb               015,87&#x20ac;&#xa;   x3   ccccccccccccccc    002,72&#x20ac;&#xa;&#xa;   -------------------------------&#xa;                    TOTAL: 042,49&#x20ac;"/>
               </Properties>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="cantidad">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="0"/>
@@ -182,7 +184,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButton4" min="-2" pref="153" max="-2" attributes="0"/>
+                  <Component id="agregar" min="-2" pref="153" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="eliminar" min="-2" pref="153" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
@@ -200,7 +202,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="imprimir" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="limpiar" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                      <Component id="jButton4" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="agregar" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="eliminar" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -225,10 +227,13 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="limpiarMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton4">
+        <Component class="javax.swing.JButton" name="agregar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Agregar Producto"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="agregarMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="eliminar">
           <Properties>

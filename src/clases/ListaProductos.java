@@ -14,23 +14,25 @@ import java.util.Comparator;
  * @author M. Durán
  */
 public class ListaProductos {
+
     private ArrayList<Producto> lista;
-    
-    public ListaProductos(){
+
+    public ListaProductos() {
         lista = new ArrayList();
     }
-    
-    public boolean insertar(Producto prod){
-        for (int i=0;i<lista.size();i++){
-            if(prod.equals(lista.get(i)))
+
+    public boolean insertar(Producto prod) {
+        for (int i = 0; i < lista.size(); i++) {
+            if (prod.equals(lista.get(i))) {
                 return false;
+            }
         }
-        
+
         lista.add(prod);
         return true;
     }
-    
-    public void ordenar(){
+
+    public void ordenar() {
         Collections.sort(lista, new Comparator<Producto>() {
 
             @Override
@@ -40,32 +42,31 @@ public class ListaProductos {
 
         });
     }
-    
-    public boolean eliminar(String nombre){
-        
-        for(int i=0; i<lista.size(); i++){
-            if(lista.get(i).getNombre().equals(nombre)){
+
+    public boolean eliminar(String nombre) {
+
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getNombre().equals(nombre)) {
                 lista.remove(i);
                 return true;
             }
         }
-        
+
         return false;
     }
-    
-    public int tamanno(){
+
+    public int tamanno() {
         return lista.size();
     }
-    
-    public Producto[] toArray(){
+
+    public Producto[] toArray() {
         Producto[] aProd = new Producto[tamanno()];
-        
-        for(int i=0;i<aProd.length;i++){
-            aProd[i]=lista.get(i);
+
+        for (int i = 0; i < aProd.length; i++) {
+            aProd[i] = lista.get(i);
         }
-        
+
         return aProd;
     }
-    
-    
+
 }

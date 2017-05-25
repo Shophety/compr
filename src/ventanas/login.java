@@ -22,9 +22,9 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         initComponents();
-        
+
         String[] usuarios = Usuario.listarUsuarios();
-        for(int i=0; i< usuarios.length;i++){
+        for (int i = 0; i < usuarios.length; i++) {
             user.addItem(usuarios[i]);
         }
     }
@@ -184,16 +184,16 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_eliminarMouseClicked
 
     private void iniciarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iniciarMouseClicked
-        if(user.getSelectedItem().equals("--Selecciona--")){
+        if (user.getSelectedItem().equals("--Selecciona--")) {
             JOptionPane.showMessageDialog(this, "ERROR: Ningun usuario seleccionado");
-        }else{
-            if(String.valueOf(pass.getPassword()).isEmpty()){
+        } else {
+            if (String.valueOf(pass.getPassword()).isEmpty()) {
                 JOptionPane.showMessageDialog(this, "ERROR: Introduzca contraseña");
-            }else{
+            } else {
                 try {
-                    if(!String.valueOf(pass.getPassword()).equals(Usuario.pass(String.valueOf(user.getSelectedItem())))){
+                    if (!String.valueOf(pass.getPassword()).equals(Usuario.pass(String.valueOf(user.getSelectedItem())))) {
                         JOptionPane.showMessageDialog(this, "ERROR: Contraseña Incorrecta");
-                    }else{
+                    } else {
                         new gestor(String.valueOf(user.getSelectedItem())).setVisible(true);
                         dispose();
                     }

@@ -22,14 +22,18 @@ import javax.swing.JOptionPane;
  * @author M. Durán
  */
 public class gestor extends javax.swing.JFrame {
+
     static String user;
+    static float precioTotal;
+
     /**
      * Creates new form gestor
      */
     public gestor(String user) throws IOException {
         initComponents();
-        this.user=user;
+        this.user = user;
         listarProductos(this.user);
+        limpiarMouseClicked(null);
     }
 
     /**
@@ -44,15 +48,15 @@ public class gestor extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lista = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        escribir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         listaCompra = new javax.swing.JTextArea();
-        jTextField1 = new javax.swing.JTextField();
+        cantidad = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         imprimir = new javax.swing.JButton();
         limpiar = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        agregar = new javax.swing.JButton();
         eliminar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         cerrar = new javax.swing.JButton();
@@ -67,19 +71,23 @@ public class gestor extends javax.swing.JFrame {
         lista.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(lista);
 
-        jButton1.setText(">>>");
+        escribir.setText(">>>");
+        escribir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                escribirMouseClicked(evt);
+            }
+        });
 
         listaCompra.setEditable(false);
         listaCompra.setColumns(20);
         listaCompra.setFont(new java.awt.Font("Lucida Console", 0, 13)); // NOI18N
         listaCompra.setRows(5);
-        listaCompra.setText("   ------LISTA DE LA COMPRA-------\n\n   x5   aaaaaaaaaaaaaaa    020,90€\n   x6   bbbb               015,87€\n   x3   ccccccccccccccc    002,72€\n\n   -------------------------------\n                    TOTAL: 042,49€");
         jScrollPane2.setViewportView(listaCompra);
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("1");
-        jTextField1.setToolTipText("");
+        cantidad.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        cantidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        cantidad.setText("1");
+        cantidad.setToolTipText("");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Cantidad:");
@@ -93,8 +101,8 @@ public class gestor extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1)
+                    .addComponent(escribir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cantidad)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 3, Short.MAX_VALUE)))
@@ -114,9 +122,9 @@ public class gestor extends javax.swing.JFrame {
                 .addGap(160, 160, 160)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(escribir, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(173, Short.MAX_VALUE))
         );
 
@@ -136,7 +144,12 @@ public class gestor extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Agregar Producto");
+        agregar.setText("Agregar Producto");
+        agregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                agregarMouseClicked(evt);
+            }
+        });
 
         eliminar.setText("Eliminar Producto");
         eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -151,7 +164,7 @@ public class gestor extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -167,7 +180,7 @@ public class gestor extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -225,28 +238,29 @@ public class gestor extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void listarProductos(String user) throws IOException{
+    private void listarProductos(String user) throws IOException {
         ListaProductos l = Usuario.listaProductos(user);
         l.ordenar();
         Producto[] aProd = l.toArray();
         DefaultListModel<String> m = new DefaultListModel();
-        
-        for (int i=0;i<aProd.length;i++){
-            String p ="";
-            p=aProd[i].getNombre()+" - "+aProd[i].getPrecio()+"€";
+
+        for (int i = 0; i < aProd.length; i++) {
+            String p = "";
+            p = aProd[i].getNombre() + " - " + aProd[i].getPrecio() + "€";
             m.addElement(p);
         }
-        
+
         lista.setModel(m);
     }
-    
+
     private void cerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarMouseClicked
         new login().setVisible(true);
         dispose();
     }//GEN-LAST:event_cerrarMouseClicked
 
     private void limpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_limpiarMouseClicked
-        listaCompra.setText("   ------LISTA DE LA COMPRA-------\n\n\n\n   -------------------------------\n                    TOTAL: 000,00€");
+        precioTotal = 0;
+        listaCompra.setText("   ------LISTA DE LA COMPRA-------\n\n\n   -------------------------------\n                    TOTAL: 000.00€");
     }//GEN-LAST:event_limpiarMouseClicked
 
     private void eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eliminarMouseClicked
@@ -255,8 +269,8 @@ public class gestor extends javax.swing.JFrame {
         } else {
             try {
                 String item = lista.getModel().getElementAt(lista.getSelectedIndex());
-                String nombreProd=item.substring(0, item.indexOf('-')-1);
-                
+                String nombreProd = item.substring(0, item.indexOf('-') - 1);
+
                 Usuario.borrarProducto(user, nombreProd);
                 listarProductos(user);
             } catch (IOException ex) {
@@ -266,23 +280,111 @@ public class gestor extends javax.swing.JFrame {
     }//GEN-LAST:event_eliminarMouseClicked
 
     private void imprimirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imprimirMouseClicked
-        int numLineas=1;
+        int numLineas = 1;
         String cad = listaCompra.getText();
-        for(int i=0;i<cad.length();i++){
-            if(cad.charAt(i)=='\n'){
+        for (int i = 0; i < cad.length(); i++) {
+            if (cad.charAt(i) == '\n') {
                 numLineas++;
             }
         }
+        int[] posSaltos = new int[numLineas - 1];
+        int count = 0;
+        for (int i = 0; i < cad.length(); i++) {
+            if (cad.charAt(i) == '\n') {
+                posSaltos[count] = i;
+                count++;
+            }
+        }
         String[] lineas = new String[numLineas];
-            
-            
-            
-            
-            /*Impresora imp = new Impresora(listaCompra.getText());
-            PrinterJob job = PrinterJob.getPrinterJob();
-            job.setPrintable(imp);
-            job.print();*/
+        for (int i = 0; i < lineas.length - 1; i++) {
+            int principio, fin;
+            if (i == 0) {
+                principio = 0;
+            } else {
+                principio = posSaltos[i - 1];
+            }
+            fin = posSaltos[i];
+            lineas[i] = cad.substring(principio, fin);
+        }
+        lineas[lineas.length - 1] = cad.substring(posSaltos[posSaltos.length - 1], cad.length());
+        Impresora imp = new Impresora(lineas);
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(imp);
+        try {
+            job.print();
+        } catch (PrinterException ex) {
+            Logger.getLogger(gestor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_imprimirMouseClicked
+
+    private void escribirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_escribirMouseClicked
+        if (cantidad.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ERROR: Campo \'Cantidad\' vacio");
+        } else {
+            if (lista.getSelectedIndex() == -1) {
+                JOptionPane.showMessageDialog(this, "ERROR: Selecione un producto");
+            } else {
+                boolean esNum = true;
+                for (int i = 0; i < cantidad.getText().length(); i++) {
+                    if (!Character.isDigit(cantidad.getText().charAt(i))) {
+                        esNum = false;
+                    }
+                }
+                if (!esNum) {
+                    JOptionPane.showMessageDialog(this, "ERROR: Campo \'Cantidad\' debe ser numerico natural");
+                } else {
+                    int c = Integer.parseInt(cantidad.getText());
+                    if (c > 9 || c < 1) {
+                        JOptionPane.showMessageDialog(this, "ERROR: Campo \'Cantidad\' debe ser entre 1 y 9");
+                    } else {
+                        String cad = listaCompra.getText();
+                        int numSaltos = 0;
+                        for (int i = 0; i < cad.length(); i++) {
+                            if (cad.charAt(i) == '\n') {
+                                numSaltos++;
+                            }
+                        }
+                        int aux = 0;
+                        int salto = 0;
+                        for (int i = 0; i < cad.length(); i++) {
+                            if (cad.charAt(i) == '\n') {
+                                aux++;
+                            }
+                            if (aux == numSaltos - 2) {
+                                salto = i;
+                            }
+                        }
+
+                        cad = cad.substring(0, salto) + "\n   x" + c + "   ";
+                        aux = 0;
+                        String prod = lista.getModel().getElementAt(lista.getSelectedIndex());
+                        for (int i = 0; i < prod.length(); i++) {
+                            if (prod.charAt(i) == '-') {
+                                aux = i;
+                            }
+                        }
+                        String nomProd = prod.substring(0, aux - 1);
+                        cad += nomProd;
+                        for (int i = 0; i < 15 - nomProd.length(); i++) {
+                            cad += " ";
+                        }
+                        cad += "    ";
+                        Float precProd = Float.parseFloat(prod.substring(aux + 2, prod.length() - 1));
+                        cad += precProd * c + "€";
+                        precioTotal += precProd * c;
+
+                        cad += "\n\n   -------------------------------\n                    TOTAL: " + precioTotal + "€";
+                        listaCompra.setText(cad);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_escribirMouseClicked
+
+    private void agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregarMouseClicked
+        new agregarProducto(user).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_agregarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -324,18 +426,18 @@ public class gestor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton agregar;
+    private javax.swing.JTextField cantidad;
     private javax.swing.JButton cerrar;
     private javax.swing.JButton eliminar;
+    private javax.swing.JButton escribir;
     private javax.swing.JButton imprimir;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton limpiar;
     private javax.swing.JList<String> lista;
     private javax.swing.JTextArea listaCompra;

@@ -13,27 +13,26 @@ import java.awt.print.Printable;
  *
  * @author M. Durán
  */
-public class Impresora implements Printable  {
+public class Impresora implements Printable {
 
     Font fuente = new Font("Lucida Console", Font.PLAIN, 13);
-    String cadena;
-    
-    public Impresora(String cadena) {
-        this.cadena=cadena;
+    String[] cadena;
+
+    public Impresora(String[] cadena) {
+        this.cadena = cadena;
     }
-    
-    public int print (Graphics g, PageFormat f, int pageIndex) 
-   {
-      if (pageIndex == 0) 
-      {
-         // Imprime "Hola mundo" en la primera pagina, en la posicion 100,100
-         g.setFont(fuente);
-         g.drawString(cadena, 100,100);
-         g.drawString("asdfg", 100,120);
-         g.drawString("qwerty", 100,140);
-         return PAGE_EXISTS;
-      }
-      else
-         return NO_SUCH_PAGE;
-   }
+
+    public int print(Graphics g, PageFormat f, int pageIndex) {
+        if (pageIndex == 0) {
+            g.setFont(fuente);
+            int espaciado = 100;
+            for (int i = 0; i < cadena.length; i++) {
+                g.drawString(cadena[i], 100, espaciado);
+                espaciado += 20;
+            }
+            return PAGE_EXISTS;
+        } else {
+            return NO_SUCH_PAGE;
+        }
+    }
 }

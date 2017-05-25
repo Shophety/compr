@@ -9,33 +9,33 @@ package clases;
  *
  * @author M. Durán
  */
-public class Producto{
+public class Producto {
+
     private String nombre;
     private float precio;
-    
-    
-    public Producto(String nombre, float precio){
-        this.nombre=nombre;
-        this.precio=precio;
+
+    public Producto(String nombre, float precio) {
+        this.nombre = nombre;
+        this.precio = precio;
     }
-    
-    public String getNombre(){
+
+    public String getNombre() {
         return this.nombre;
     }
-    
-    public float getPrecio(){
+
+    public float getPrecio() {
         return this.precio;
     }
-    
+
     @Override
-    public boolean equals(Object obj){
-        if(obj instanceof Producto){
-            Producto p = (Producto)obj;
-            if(p.nombre.equals(this.nombre)){
+    public boolean equals(Object obj) {
+        if (obj instanceof Producto) {
+            Producto p = (Producto) obj;
+            if (p.nombre.toUpperCase().equals(this.nombre.toUpperCase())) {
                 return true;
             }
         }
-        
+
         return false;
     }
 }
