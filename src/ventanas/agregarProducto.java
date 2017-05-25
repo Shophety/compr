@@ -127,7 +127,7 @@ public class agregarProducto extends javax.swing.JFrame {
             }
         });
 
-        cancelar.setText("Cancelar");
+        cancelar.setText("Atras");
         cancelar.setToolTipText("");
         cancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
